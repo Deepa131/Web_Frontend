@@ -21,6 +21,9 @@ const Login = () => {
                 // Save the token in localStorage
                 localStorage.setItem('token', response.token);
                 localStorage.setItem('user', JSON.stringify(response.user));
+
+                window.dispatchEvent(new Event("storage"));
+                
                 navigate('/homepage'); // Redirect to homepage
             } else {
                 setError(response.error || 'Login failed.');

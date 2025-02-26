@@ -5,12 +5,12 @@ import "../styles/NavbarFooter.css";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     const checkAuth = () => {
       const user = JSON.parse(localStorage.getItem("user"));
-      setIsLoggedIn(user && user.loggedIn);
+      setIsLoggedIn(user?.loggedIn || false);
     };
 
     checkAuth();
@@ -27,6 +27,9 @@ const Navbar = () => {
     localStorage.removeItem("user");
     setIsLoggedIn(false);
     navigate("/login");
+
+    // Trigger storage event so other components update
+    window.dispatchEvent(new Event("storage"));
   };
 
   return (
