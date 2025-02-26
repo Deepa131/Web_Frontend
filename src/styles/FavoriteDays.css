@@ -1,0 +1,155 @@
+/* Dark Mode - Favorite Days */
+.favorite-days {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    min-height: 80vh;
+    padding: 10px;
+    box-sizing: border-box;
+    background: linear-gradient(to right, #0f2027, #2c5364); /* Dark blue shades */
+    color: #e0f7fa;
+  }
+  
+  .favorites-container {
+    background: rgba(255, 255, 255, 0.1);
+    color: #d1ecf1;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    width: 100%;
+    max-width: 1000px;
+    min-height: 80vh;
+    text-align: center;
+  }
+  
+  h1 {
+    font-size: 28px;
+    margin-bottom: 15px;
+    color: #f8f9fa;
+  }
+  
+  /* Message for No Favorite Entries */
+  .no-favorites-message {
+    font-size: 18px;
+    font-style: italic;
+    color: #b0bec5;
+    margin-top: 10px;
+  }
+  
+  /* Entry List */
+  .entries-list {
+    margin-top: 20px;
+  }
+  
+  /* Saved Entry Card */
+  .entry-card {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    margin-top: 15px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    text-align: left;
+    align-items: center;
+  }
+  
+  /* Entry Header */
+  .entry-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .entry-date {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #f8f9fa;
+  }
+  
+  .entry-actions {
+    display: flex;
+    gap: 10px;
+  }
+  
+  /* Left Align Entry Content */
+  .entry-content {
+    padding-left: 10px;
+    text-align: left;
+  }
+  
+  /* Sections Inside the Entry */
+  .highlight-section,
+  .quality-section,
+  .thoughts-section {
+    margin-bottom: 15px;
+  }
+  
+  /* Labels for Sections */
+  .highlight-label,
+  .quality-label,
+  .thoughts-label {
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: #f8f9fa;
+    display: block;
+  }
+  
+  /* Left Align the Entered Data */
+  .highlight-text,
+  .quality-text,
+  .thoughts-text {
+    font-size: 1rem;
+    color: #ddd;
+    text-align: left;
+    display: block;
+  }
+  
+  /* Favorite Icon */
+  .favorite-icon {
+    cursor: pointer;
+    font-size: 22px;
+    color: #ccc;
+    margin-left: 10px;
+    transition: color 0.3s ease;
+  }
+  
+  .favorite-icon.favorited {
+    color: #dc2020;
+  }
+  
+  /* Success Message */
+  .success-message {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px 0;
+    text-align: center;
+    font-weight: bold;
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .favorites-container {
+      width: 95%;
+      padding: 25px;
+    }
+  
+    .entry-date {
+      font-size: 1.2rem;
+    }
+  }
+  

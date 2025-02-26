@@ -1,0 +1,138 @@
+/* Full-Screen Dark Mode Theme */
+.track-moods-container {
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+    background: linear-gradient(to right, #0f2027, #2c5364); 
+    min-height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #e0f7fa;
+  }
+  
+  /* Mood Selection Section */
+  .mood-selection h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #f8f9fa;
+    margin-bottom: 30px;
+  }
+  
+  /* Mood Buttons */
+  .mood-options {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  
+  .mood-button {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 15px 25px;
+    border-radius: 10px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    width: 150px;
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #d1ecf1;
+    border: 2px solid transparent;
+  }
+  
+  .mood-button:hover, .mood-button.active {
+    background: #4CAF50;
+    color: white;
+    transform: scale(1.1);
+    border: 2px solid #388E3C;
+  }
+  
+  /* Mood History Section */
+  .mood-history {
+    width: 100%;
+    max-width: 900px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    margin-top: 40px;
+    text-align: left;
+    color: #d1ecf1;
+  }
+  
+  .mood-history h2 {
+    font-size: 2rem;
+    color: #f8f9fa;
+    margin-bottom: 15px;
+  }
+  
+  /* Mood History List */
+  .mood-history ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .mood-history-item {
+    padding: 15px;
+    border-bottom: 1px solid #b0bec5;
+    font-size: 1.3rem;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .mood-history-item:last-child {
+    border-bottom: none;
+  }
+  
+  .date {
+    color: #b0bec5;
+    font-weight: 500;
+  }
+  
+  .mood {
+    font-weight: bold;
+    color: #4CAF50;
+  }
+  
+  /* Footer */
+  .footer {
+    width: 100%;
+    /* padding: 15px; */
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    text-align: center;
+    font-size: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: auto;
+  }
+  .footer p {
+    margin: 0;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+    color: #f1f1f1;
+    opacity: 0.8;
+}
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .mood-options {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .mood-button {
+      width: 140px;
+      font-size: 1rem;
+    }
+  
+    .mood-history {
+      width: 90%;
+    }
+  }
+  
