@@ -175,16 +175,25 @@ export const removeFavorite = async (id, token) => {
     }
 };
 
-export const toggleFavorite = async (id, token) => {
-    try {
-        const response = await axios.put(`${BASE_URL}/diaries/favorites/${id}/toggle`, {}, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        });
-        return response.data; // Return the response after toggling
-    } catch (error) {
-        console.error("Error toggling favorite entry:", error.response ? error.response.data : error);
-        throw new Error("Failed to toggle favorite entry");
-    }
+export const toggleFavorite = async (entryId) => {
+  try {
+      const response = await fetch(`http://localhost:5000/api/favorites/${entryId}/toggle`, {
+          method: "PUT",
+          headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+      });
+
+      if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || "Failed to toggle favorite entry");
+      }
+
+      return await response.json();
+  } catch (error) {
+      console.error("Error toggling favorite entry:", error);
+      throw error;
+  }
 };
+
