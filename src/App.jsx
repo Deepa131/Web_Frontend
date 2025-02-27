@@ -7,6 +7,7 @@ import FavoriteDays from './components/private/FavoriteDays';
 import MyEntries from './components/private/MyEntries';
 import About from './components/private/About';
 import TrackMoods from './components/private/TrackMoods';
+import Contact from './components/private/Contact';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/my-entries" element={<MyEntries />} />
         <Route path="/about" element={<About />} />
         <Route path="/track-moods" element={<TrackMoods />} />
+        <Route path="/contact" element={<Contact />} />
       </Routes>
     </Router>
   );
