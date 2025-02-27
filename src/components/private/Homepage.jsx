@@ -22,7 +22,6 @@ const Home = () => {
         <p>Capture your thoughts, track your moods, and cherish your memories in a beautiful and secure digital diary.</p>
       </section>
 
-      {/* Feature Sections */}
       <section className="features-section">
         <div className="feature-card" onClick={() => handleNavigation("/reflect-now")}> 
           <FaBook className="feature-icon" />
@@ -41,7 +40,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Your Journey Section */}
       <section className="journey-section">
         <div className="journey-text">
           <h2>Your Journey, Your Story</h2>
