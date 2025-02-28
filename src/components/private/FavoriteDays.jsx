@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios"; // Import Axios for API requests
+import React, { useState, useEffect, useCallback } from "react";
+import { getFavorites, removeFavorite, updateFavorite } from "../../api/api";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
 import "../../styles/FavoriteDays.css";
-import { FaTrash, FaEdit, FaSave } from "react-icons/fa"; // Import icons for editing and deleting
-
-const API_URL = "http://localhost:5000/api/diaries/favorites"; // Update API endpoint
+import { FaTrash, FaEdit, FaSave } from "react-icons/fa";
 
 const FavoriteDays = () => {
   const [favoriteEntries, setFavoriteEntries] = useState([]);
@@ -18,35 +16,31 @@ const FavoriteDays = () => {
     highlight: "",
   });
   const [selectedHighlight, setSelectedHighlight] = useState(null);
-  const [loading, setLoading] = useState(true); 
+  const [loading, setLoading] = useState(true);
 
-  // Fetch favorites from the backend
-  useEffect(() => {
-    fetchFavorites();
+  const fetchFavorites = useCallback(async () => {
+    setLoading(true); // Set loading to true when fetching starts
+    try {
+      const token = localStorage.getItem("token");
+      const data = await getFavorites(token);
+      setFavoriteEntries(data);
+    } catch (error) {
+      console.error("Error fetching favorite entries:", error);
+      setMessage("Failed to load favorite entries. Please try again.");
+    } finally {
+      setLoading(false); // Ensure loading is set to false after fetching
+    }
   }, []);
 
-  const fetchFavorites = async () => {
-    const token = localStorage.getItem("token");
-    const config = {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    };
+  useEffect(() => {
+    fetchFavorites();
+  }, [fetchFavorites]);
 
+  const handleRemoveFavorite = async (id) => {
     try {
-        const response = await axios.get(`${API_URL}`, config);
-        setFavorites(response.data);
-    } catch (error) {
-        console.error("Error fetching favorite entries:", error);
-        alert("Failed to load favorite entries. Please try again.");
-    }
-};
-
-  // Remove favorite entry from backend
-  const removeFavorite = async (id) => {
-    try {
-      await axios.delete(`${API_URL}/${id}`);
-      setFavoriteEntries(favoriteEntries.filter(entry => id !== id));
+      const token = localStorage.getItem("token");
+      await removeFavorite(id, token);
+      setFavoriteEntries(favoriteEntries.filter(entry => entry.id !== id));
       setMessage("Entry removed from favorite days ❌");
     } catch (error) {
       console.error("Error removing favorite entry:", error);
@@ -54,22 +48,26 @@ const FavoriteDays = () => {
     }
   };
 
-  // Edit favorite entry
-  const editFavorite = (index) => {
+  const handleEditFavorite = (index) => {
     setEditIndex(index);
     setEditedEntry(favoriteEntries[index]);
   };
 
-  // Save edited favorite entry to backend
-  const saveEditedEntry = async () => {
+  const handleSaveEditedEntry = async () => {
+    // Validate edited entry before saving
+    if (!editedEntry.highlight || !editedEntry.thoughts) {
+      setMessage("Highlight and thoughts cannot be empty.");
+      return;
+    }
+
     try {
+      const token = localStorage.getItem("token");
       const { id } = favoriteEntries[editIndex];
-      await axios.put(`${API_URL}/${id}`, editedEntry);
+      await updateFavorite(id, editedEntry, token);
       
       const updatedFavorites = [...favoriteEntries];
-      updatedFavorites[editIndex] = { ...editedEntry, id }; 
+      updatedFavorites[editIndex] = { ...editedEntry, id };
       setFavoriteEntries(updatedFavorites);
-      
       setEditIndex(null);
       setMessage("Entry updated successfully! ✏️");
     } catch (error) {
@@ -78,8 +76,7 @@ const FavoriteDays = () => {
     }
   };
 
-  // Cancel editing
-  const cancelEdit = () => {
+  const handleCancelEdit = () => {
     setEditIndex(null);
     setEditedEntry({
       selectedDate: "",
@@ -89,10 +86,7 @@ const FavoriteDays = () => {
     });
   };
 
-  // Get unique highlights for sidebar
   const uniqueHighlights = [...new Set(favoriteEntries.map(entry => entry.highlight))];
-
-  // Filter entries by selected highlight
   const filteredEntries = selectedHighlight
     ? favoriteEntries.filter(entry => entry.highlight === selectedHighlight)
     : favoriteEntries;
@@ -139,8 +133,8 @@ const FavoriteDays = () => {
                         onChange={(e) => setEditedEntry({ ...editedEntry, thoughts: e.target.value })}
                         placeholder="Thoughts"
                       />
-                      <button onClick={saveEditedEntry} className="save-btn"><FaSave /> Save</button>
-                      <button onClick={cancelEdit} className="cancel-btn">Cancel</button>
+                      <button onClick={handleSaveEditedEntry} className="save-btn"><FaSave /> Save</button>
+                      <button onClick={handleCancelEdit} className="cancel-btn">Cancel</button>
                     </div>
                   ) : (
                     <>
@@ -149,8 +143,8 @@ const FavoriteDays = () => {
                           {new Date(entry.selectedDate).toLocaleDateString()}
                         </strong>
                         <div className="entry-actions">
-                          <FaEdit onClick={() => editFavorite(index)} className="edit-icon" />
-                          <FaTrash onClick={() => removeFavorite(entry.id)} className="delete-icon" />
+                          <FaEdit onClick={() => handleEditFavorite(index)} className="edit-icon" />
+                          <FaTrash onClick={() => handleRemoveFavorite(entry.id)} className="delete-icon" />
                         </div>
                       </div>
                       <div className="entry-content">

@@ -120,17 +120,34 @@ export const addFavorite = async (userId, diaryId, token) => {
 };
 
 export const getFavorites = async (token) => {
-    try {
+  try {
       const response = await axios.get(`${BASE_URL}/diaries/favorites/get_favorite`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          headers: {
+              Authorization: `Bearer ${token}`,
+          },
       });
+      
+      // Check if the response data is in the expected format
+      if (!response.data) {
+          throw new Error("No data returned from the API");
+      }
+
       return response.data; 
-    } catch (error) {
-      console.error("Error fetching favorites:", error.response ? error.response.data : error);
-      throw new Error("Failed to fetch favorite entries");
-    }
+  } catch (error) {
+      // Log detailed error information
+      if (error.response) {
+          console.error("Error fetching favorites:", {
+              status: error.response.status,
+              data: error.response.data,
+              message: error.message,
+          });
+      } else {
+          console.error("Error fetching favorites:", error.message);
+      }
+      
+      // Throw a more informative error
+      throw new Error(`Failed to fetch favorite entries: ${error.response ? error.response.data.message : error.message}`);
+  }
 };
 
 export const getFavoriteById = async (id, token) => {
