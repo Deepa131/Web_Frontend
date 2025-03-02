@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { getAllDiaryEntries, getDiaryEntryById, updateDiaryEntry, deleteDiaryEntry, toggleFavorite } from "../../api/api"; 
+import {
+  getAllDiaryEntries,
+  updateDiaryEntry,
+  deleteDiaryEntry,
+  toggleFavorite,
+  getFavorites,
+} from "../../api/api"; 
 import "../../styles/MyEntries.css";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
@@ -12,97 +18,99 @@ const MyEntries = () => {
   const [selectedEntry, setSelectedEntry] = useState({});
   const [selectedHighlight, setSelectedHighlight] = useState(null);
   const token = localStorage.getItem("token");
+
   useEffect(() => {
     const fetchEntries = async () => {
+      if (!token) return;
       try {
         const data = await getAllDiaryEntries(token);
-        console.log("Fetched entries:", data);
-        setEntries(data);
+        const formattedEntries = data.map(entry => ({
+          ...entry,
+          highlight: entry.highlight?.trim() || "No highlight.",
+          thoughts: entry.thoughts?.trim() || "No thoughts provided.",
+          dayQuality: entry.dayQuality?.trim() || "Unknown",
+        }));
+        setEntries(formattedEntries);
       } catch (error) {
         console.error("Error fetching entries:", error);
       }
     };
     fetchEntries();
   }, [token]);
+
+  useEffect(() => {
+    const fetchFavorites = async () => {
+      if (!token) return;
+      try {
+        const favoriteData = await getFavorites(token);
+        setFavorites(favoriteData);
+      } catch (error) {
+        console.error("Error fetching favorites:", error);
+      }
+    };
+    fetchFavorites();
+  }, [token]);
+
   const saveEditedEntry = async () => {
-    console.log("Selected entry before saving:", selectedEntry);
     if (!selectedEntry.entryId) {
-      console.error("Entry ID is missing or invalid", selectedEntry);
       alert("Invalid entry ID");
       return;
     }
     try {
-      const updatedEntry = await updateDiaryEntry(selectedEntry.entryId, selectedEntry, token);
-      console.log("Updated entry response:", updatedEntry);
-      const updatedEntries = entries.map((entry) =>
-        entry.entryId === selectedEntry.entryId ? updatedEntry : entry
-      );
-      setEntries(updatedEntries);
+      await updateDiaryEntry(selectedEntry.entryId, selectedEntry, token);
       setEditIndex(null);
       setSelectedEntry({});
+      const updatedEntries = await getAllDiaryEntries(token);
+      setEntries(updatedEntries);
     } catch (error) {
-      console.error("Error editing entry:", error.message);
-      alert("Failed to update the entry. Please try again later.");
+      alert("Failed to update the entry. Please try again.");
     }
   };
+
   const cancelEdit = () => {
     setEditIndex(null);
     setSelectedEntry({});
   };
+
   const deleteEntry = async (index) => {
     const entryToDelete = entries[index];
-    console.log("Deleting entry:", entryToDelete);
     if (!entryToDelete || !entryToDelete.entryId) {
-      console.error("Invalid entry or missing entry ID for deletion");
-      alert("Unable to delete this entry. Please try again.");
+      alert("Invalid entry");
       return;
     }
-    const confirmMessage = "Are you sure you want to delete this entry?";
-    if (window.confirm(confirmMessage)) {
+    if (window.confirm("Are you sure you want to delete this entry?")) {
       try {
         await deleteDiaryEntry(entryToDelete.entryId, token);
-        const updatedEntries = entries.filter(
-          (entry) => entry.entryId !== entryToDelete.entryId
-        );
-        setEntries(updatedEntries);
+        setEntries(prevEntries => prevEntries.filter(entry => entry.entryId !== entryToDelete.entryId));
       } catch (error) {
-        console.error("Error deleting entry:", error);
-        alert("Failed to delete entry. Please try again later.");
+        alert("Failed to delete entry. Please try again.");
       }
     }
   };
+
   const toggleFavoriteEntry = async (index) => {
     const entry = entries[index];
-    console.log("Toggling favorite for entry:", entry);
     if (!entry || !entry.entryId) {
-        console.error("Invalid entry or missing entry ID for favorite action");
-        alert("Unable to toggle favorite. Please try again.");
-        return;
+      alert("Invalid entry. Please try again.");
+      return;
     }
-    const token = localStorage.getItem("token");
-    if (!token) {
-        alert("You must be logged in to toggle favorites.");
-        return;
-    }
-    const isFavorited = favorites.some((fav) => fav.entryId === entry.entryId);
     try {
-        if (isFavorited) {
-            await deleteDiaryEntry(entry.entryId, token); 
-            const updatedFavorites = favorites.filter((fav) => fav.entryId !== entry.entryId);
-            setFavorites(updatedFavorites);
-        } else {
-            await toggleFavorite(entry.entryId, token); 
-            setFavorites([...favorites, entry]); 
-        }
+      await toggleFavorite(token, entry.entryId);
+      setFavorites(prevFavorites =>
+        prevFavorites.some(fav => fav.entryId === entry.entryId)
+          ? prevFavorites.filter(fav => fav.entryId !== entry.entryId)
+          : [...prevFavorites, entry]
+      );
     } catch (error) {
-        console.error("Error toggling favorite:", error);
-        alert("Failed to update favorite. Please try again.");
+      alert("Failed to update favorite. Please try again.");
     }
-};
+  };
+
   const editEntry = (index) => {
     setEditIndex(index);
     setSelectedEntry(entries[index]);
   };
+
   const uniqueHighlights = [...new Set(entries.map((entry) => entry.highlight))];
   const filteredEntries = selectedHighlight
     ? entries.filter((entry) => entry.highlight === selectedHighlight)
@@ -141,9 +149,7 @@ const MyEntries = () => {
                       <FaEdit onClick={() => editEntry(index)} className="edit-icon" />
                       <FaTrash onClick={() => deleteEntry(index)} className="delete-icon" />
                       <FaHeart
-                        className={`favorite-icon ${
-                          favorites.some((fav) => fav.entryId === entry.entryId) ? "favorited" : ""
-                        }`}
+                        className={`favorite-icon ${favorites.some(fav => fav.entryId === entry.entryId) ? "favorited" : ""}`}
                         onClick={() => toggleFavoriteEntry(index)}
                       />
                     </div>
@@ -151,54 +157,20 @@ const MyEntries = () => {
 
                   {editIndex === index ? (
                     <div className="edit-form">
-                      <div>
-                        <label>Highlight</label>
-                        <input
-                          type="text"
-                          value={selectedEntry.highlight}
-                          onChange={(e) =>
-                            setSelectedEntry({ ...selectedEntry, highlight: e.target.value })
-                          }
-                        />
-                      </div>
-                      <div>
-                        <label>Day Quality</label>
-                        <input
-                          type="text"
-                          value={selectedEntry.dayQuality}
-                          onChange={(e) =>
-                            setSelectedEntry({ ...selectedEntry, dayQuality: e.target.value })
-                          }
-                        />
-                      </div>
-                      <div>
-                        <label>Thoughts</label>
-                        <textarea
-                          value={selectedEntry.thoughts}
-                          onChange={(e) =>
-                            setSelectedEntry({ ...selectedEntry, thoughts: e.target.value })
-                          }
-                        />
-                      </div>
+                      <label>Highlight</label>
+                      <input type="text" value={selectedEntry.highlight} onChange={(e) => setSelectedEntry({ ...selectedEntry, highlight: e.target.value })} />
+                      <label>Day Quality</label>
+                      <input type="text" value={selectedEntry.dayQuality} onChange={(e) => setSelectedEntry({ ...selectedEntry, dayQuality: e.target.value })} />
+                      <label>Thoughts</label>
+                      <textarea value={selectedEntry.thoughts} onChange={(e) => setSelectedEntry({ ...selectedEntry, thoughts: e.target.value })} />
                       <button onClick={saveEditedEntry}>Save</button>
                       <button onClick={cancelEdit}>Cancel</button>
                     </div>
                   ) : (
                     <div className="entry-content">
-                      <div className="highlight-section">
-                        <span className="highlight-label">Today's Highlight:</span>
-                        <p className="highlight-text" style={{ fontWeight: "bold" }}>
-                          {entry.highlight}
-                        </p>
-                      </div>
-                      <div className="quality-section">
-                        <span className="quality-label">My day was:</span>
-                        <p className="quality-text">{entry.dayQuality}</p>
-                      </div>
-                      <div className="thoughts-section">
-                        <span className="thoughts-label">Thoughts:</span>
-                        <p className="thoughts-text">{entry.thoughts}</p>
-                      </div>
+                      <p><strong>Today's Highlight:</strong> {entry.highlight}</p>
+                      <p><strong>My day was:</strong> {entry.dayQuality}</p>
+                      <p><strong>Thoughts:</strong> {entry.thoughts}</p>
                     </div>
                   )}
                 </div>
@@ -211,5 +183,4 @@ const MyEntries = () => {
     </div>
   );
 };
-
 export default MyEntries;
