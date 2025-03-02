@@ -1,4 +1,4 @@
-/* General Styles */
+
 .main {
     background: url('../assets/images/Background.png') no-repeat center center/cover; /* Digital diary background */
     width: 100vw;
@@ -14,7 +14,7 @@
 
 /* Signup and Login Container */
 .signup-container, .login-container {
-    background: rgba(255, 255, 255, 0.15); /* Semi-transparent glass effect */
+    background: rgba(255, 255, 255, 0.15); 
     backdrop-filter: blur(10px);
     padding: 30px;
     border-radius: 12px;
@@ -26,7 +26,6 @@
     position: relative;
 }
 
-/* Digital Diary-themed Image at the top */
 .form-image {
     width: 100px;
     height: 100px;
@@ -35,7 +34,6 @@
     border-radius: 10px;
 }
 
-/* Form Fields */
 input {
     width: 100%;
     padding: 12px;
@@ -86,7 +84,6 @@ a:hover {
     text-decoration: underline;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
     .signup-container, .login-container {
         padding: 20px;

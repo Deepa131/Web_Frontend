@@ -1,4 +1,4 @@
-/* Full-Screen Dark Mode Theme */
+
 .track-moods-container {
     font-family: 'Poppins', sans-serif;
     text-align: center;
@@ -99,10 +99,8 @@
     color: #4CAF50;
   }
   
-  /* Footer */
   .footer {
     width: 100%;
-    /* padding: 15px; */
     background: rgba(0, 0, 0, 0.5);
     color: white;
     text-align: center;
@@ -119,7 +117,6 @@
     opacity: 0.8;
 }
   
-  /* Responsive Design */
   @media (max-width: 768px) {
     .mood-options {
       flex-direction: column;

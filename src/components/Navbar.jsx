@@ -14,8 +14,6 @@ const Navbar = () => {
     };
 
     checkAuth();
-
-    // Listen for localStorage changes
     window.addEventListener("storage", checkAuth);
 
     return () => {
@@ -28,7 +26,6 @@ const Navbar = () => {
     setIsLoggedIn(false);
     navigate("/login");
 
-    // Trigger storage event so other components update
     window.dispatchEvent(new Event("storage"));
   };
 

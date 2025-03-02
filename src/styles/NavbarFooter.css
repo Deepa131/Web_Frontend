@@ -1,4 +1,4 @@
-/* General Layout */
+
 body, html {
     margin: 0;
     padding: 0;
@@ -7,7 +7,6 @@ body, html {
     flex-direction: column;
 }
 
-/* NAVBAR DESIGN */
 .navbar {
     margin: 0;
     padding: 0;
@@ -25,13 +24,11 @@ body, html {
     z-index: 100;
 }
 
-/* Navbar on Scroll */
 .navbar.scrolled {
     background: rgba(15, 15, 30, 0.9);
     box-shadow: 0 4px 20px rgba(247, 164, 0, 0.3);
 }
 
-/* Logo */
 .navbar .logo img {
     max-height: 50px;
     transition: transform 0.3s ease-in-out;
@@ -41,7 +38,6 @@ body, html {
     transform: scale(1.08);
 }
 
-/* Nav Links */
 .nav-links {
     list-style: none;
     display: flex;
@@ -57,7 +53,6 @@ body, html {
     position: relative;
 }
 
-/* Smooth Underline Animation */
 .nav-links a::after {
     content: "";
     display: block;
@@ -76,7 +71,6 @@ body, html {
     color: #f7a400;
 }
 
-/* Navbar Button */
 .nav-links .btn {
     background: linear-gradient(to right, #6a11cb, #2575fc);
     color: white;
@@ -96,7 +90,6 @@ body, html {
     box-shadow: 0 8px 20px rgba(106, 17, 203, 0.5);
 }
 
-/* FOOTER DESIGN */
 .footer {
     background: linear-gradient(to right, #2c3e50, #26a69a);
     color: #ffffff;
@@ -104,10 +97,9 @@ body, html {
     width: 100%;
     font-size: 1rem;
     box-sizing: border-box;
-    margin-top: auto; /* Ensures footer stays at the bottom */
+    margin-top: auto; 
 }
 
-/* Footer Text */
 .footer p {
     margin: 0;
     font-size: 1.1rem;
@@ -116,7 +108,6 @@ body, html {
     opacity: 0.8;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
     .navbar {
         padding: 12px 20px;
