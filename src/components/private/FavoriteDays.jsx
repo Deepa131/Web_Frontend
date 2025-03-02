@@ -19,7 +19,7 @@ const FavoriteDays = () => {
   const [loading, setLoading] = useState(true);
 
   const fetchFavorites = useCallback(async () => {
-    setLoading(true); // Set loading to true when fetching starts
+    setLoading(true);
     try {
       const token = localStorage.getItem("token");
       const data = await getFavorites(token);
@@ -28,7 +28,7 @@ const FavoriteDays = () => {
       console.error("Error fetching favorite entries:", error);
       setMessage("Failed to load favorite entries. Please try again.");
     } finally {
-      setLoading(false); // Ensure loading is set to false after fetching
+      setLoading(false);
     }
   }, []);
 
@@ -54,7 +54,7 @@ const FavoriteDays = () => {
   };
 
   const handleSaveEditedEntry = async () => {
-    // Validate edited entry before saving
+    
     if (!editedEntry.highlight || !editedEntry.thoughts) {
       setMessage("Highlight and thoughts cannot be empty.");
       return;
