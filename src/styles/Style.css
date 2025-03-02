@@ -12,7 +12,6 @@
     font-family: "Poppins", sans-serif;
 }
 
-/* Signup and Login Container */
 .signup-container, .login-container {
     background: rgba(255, 255, 255, 0.15); 
     backdrop-filter: blur(10px);
@@ -50,7 +49,6 @@ input:focus {
     outline: none;
 }
 
-/* Button Styles */
 button {
     width: 100%;
     padding: 12px;

@@ -18,20 +18,16 @@ const FavoriteDays = () => {
   const [selectedHighlight, setSelectedHighlight] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Fetch favorite entries from the API
   const fetchFavorites = useCallback(async () => {
     setLoading(true);
     try {
       const token = localStorage.getItem("token");
       const data = await getFavorites(token);
 
-      // Ensure data structure is correct
       if (!Array.isArray(data)) {
         throw new Error("Invalid data format");
       }
 
-      console.log(data)
-      // Format the entries properly
       setFavoriteEntries(
         data.map(entry => ({
           id: entry.id || "",
@@ -53,7 +49,6 @@ const FavoriteDays = () => {
     fetchFavorites();
   }, [fetchFavorites]);
 
-  // Remove favorite entry
   const handleRemoveFavorite = async (id) => {
     try {
       const token = localStorage.getItem("token");
@@ -66,19 +61,16 @@ const FavoriteDays = () => {
     }
   };
 
-  // Edit favorite entry
   const handleEditFavorite = (index) => {
     setEditIndex(index);
     setEditedEntry({ ...favoriteEntries[index] });
   };
 
-  // Save edited entry
   const handleSaveEditedEntry = async () => {
     if (!editedEntry.highlight.trim() || !editedEntry.thoughts.trim()) {
       setMessage("Highlight and thoughts cannot be empty.");
       return;
     }
-
     try {
       const token = localStorage.getItem("token");
       const { id } = favoriteEntries[editIndex];
@@ -95,19 +87,12 @@ const FavoriteDays = () => {
     }
   };
 
-
-
-
-  // Cancel edit
   const handleCancelEdit = () => {
     setEditIndex(null);
     setEditedEntry({ selectedDate: "", dayQuality: "", thoughts: "", highlight: "" });
   };
-
-  // Get unique highlights
   const uniqueHighlights = [...new Set(favoriteEntries.map(entry => entry.highlight))];
 
-  // Filtered entries based on selected highlight
   const filteredEntries = selectedHighlight
     ? favoriteEntries.filter(entry => entry.highlight === selectedHighlight)
     : favoriteEntries;
