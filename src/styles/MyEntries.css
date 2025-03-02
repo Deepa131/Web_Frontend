@@ -1,4 +1,4 @@
-/* Dark Mode - My Entries */
+
 .my-entries {
     display: flex;
     flex-direction: column;
@@ -8,7 +8,7 @@
     min-height: 80vh;
     padding: 10px;
     box-sizing: border-box;
-    background: linear-gradient(to right, #1a1a2e, #16213e); /* Dark blue shades */
+    background: linear-gradient(to right, #1a1a2e, #16213e); 
     color: #e0f7fa;
   }
   
@@ -87,7 +87,6 @@
     color: #f8f9fa;
   }
   
-  /* Edit Form */
   .edit-form {
     background: rgba(255, 255, 255, 0.1);
     padding: 50px;
@@ -138,8 +137,7 @@
   .save-btn:hover {
     background: #006666;
   }
-  
-  /* Entry Cards */
+
   .entries-list {
     width: 100%;
   }
@@ -153,8 +151,7 @@
     width: 100%;
     text-align: left;
   }
-  
-  /* Entry Header (Date & Actions) */
+ 
   .entry-header {
     display: flex;
     justify-content: space-between;
@@ -172,15 +169,13 @@
     display: flex;
     gap: 10px;
   }
-  
-  /* Sections Inside the Entry */
+
   .highlight-section,
   .quality-section,
   .thoughts-section {
     margin-bottom: 15px;
   }
-  
-  /* Labels for Sections */
+
   .highlight-label,
   .quality-label,
   .thoughts-label {
@@ -189,8 +184,7 @@
     color: #f8f9fa;
     display: block;
   }
-  
-  /* Left Align the Entered Data */
+ 
   .highlight-text,
   .quality-text,
   .thoughts-text {
@@ -199,8 +193,7 @@
     text-align: left;
     display: block;
   }
-  
-  /* Favorite Icon */
+ 
   .favorite-icon {
     cursor: pointer;
     font-size: 22px;
@@ -213,7 +206,6 @@
     color: #dc2020;
   }
   
-  /* Success Message */
   .success-message {
     background-color: #d4edda;
     color: #155724;
@@ -234,7 +226,6 @@
     }
   }
   
-  /* Responsive Design */
   @media (max-width: 768px) {
     .main-container {
       flex-direction: column;

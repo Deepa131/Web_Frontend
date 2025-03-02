@@ -1,4 +1,4 @@
-/* Dark Mode - Daily Insights */
+
 .daily-insights {
   display: flex;
   flex-direction: column;
@@ -8,7 +8,7 @@
   min-height: 80vh;
   padding: 10px;
   box-sizing: border-box;
-  background: linear-gradient(to right, #0f2027, #2c5364); /* Dark blue shades */
+  background: linear-gradient(to right, #0f2027, #2c5364); 
   color: #e0f7fa; 
 }
 
@@ -28,10 +28,10 @@
 h1 {
   font-size: 28px;
   margin-bottom: 15px;
-  color: #f8f9fa; /* Slightly brighter white */
+  color: #f8f9fa; 
 }
 
-/* Date Picker */
+
 .calendar-picker {
   display: flex;
   align-items: center;
@@ -48,7 +48,6 @@ h1 {
   font-size: 20px;
 }
 
-/* Inputs & Dropdown */
 select, textarea, input {
   width: 100%;
   padding: 12px;
@@ -57,7 +56,7 @@ select, textarea, input {
   border: 1px solid rgba(255, 255, 255, 0.2);
   outline: none;
   font-size: 16px;
-  background: #2d3e50; /* Dark background for better contrast */
+  background: #2d3e50;
   color: white; 
 }
 
@@ -70,7 +69,6 @@ textarea {
   resize: none;
 }
 
-/* Highlights Section */
 .highlight-input {
   display: flex;
   align-items: center;
@@ -108,7 +106,6 @@ button {
   background: #006666;
 }
 
-/* Saved Entry Card */
 .entry-card {
   background: rgba(255, 255, 255, 0.1);
   padding: 20px;
@@ -138,40 +135,35 @@ button {
   gap: 10px;
 }
 
-/* Left Align Entry Content */
 .entry-content {
-  padding-left: 10px;  /* Add a small indentation for better readability */
-  text-align: left;  /* Ensure text inside content is left-aligned */
+  padding-left: 10px;
+  text-align: left; 
 }
 
-/* Sections Inside the Entry */
 .highlight-section,
 .quality-section,
 .thoughts-section {
   margin-bottom: 15px;
 }
 
-/* Labels for Sections */
 .highlight-label,
 .quality-label,
 .thoughts-label {
   font-weight: bold;
   font-size: 1.1rem;
   color: #f8f9fa;
-  display: block; /* Makes sure labels appear on a separate line */
+  display: block; 
 }
 
-/* Left Align the Entered Data */
 .highlight-text,
 .quality-text,
 .thoughts-text {
   font-size: 1rem;
   color: #ddd;
-  text-align: left;  /* Ensure user-entered text is left-aligned */
-  display: block;  /* Prevents inline display that may center text */
+  text-align: left; 
+  display: block; 
 }
 
-/* Favorite Icon */
 .favorite-icon {
   cursor: pointer;
   font-size: 22px;
@@ -204,8 +196,6 @@ button {
   }
 }
 
-
-/* Responsive Design */
 @media (max-width: 768px) {
   .insights-container {
     width: 95%;
