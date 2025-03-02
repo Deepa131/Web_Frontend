@@ -1,4 +1,4 @@
-/* Dark Mode - Favorite Days */
+
 .favorite-days {
     display: flex;
     flex-direction: column;
@@ -30,7 +30,6 @@
     color: #f8f9fa;
   }
   
-  /* Message for No Favorite Entries */
   .no-favorites-message {
     font-size: 18px;
     font-style: italic;
@@ -38,12 +37,10 @@
     margin-top: 10px;
   }
   
-  /* Entry List */
   .entries-list {
     margin-top: 20px;
   }
   
-  /* Saved Entry Card */
   .entry-card {
     background: rgba(255, 255, 255, 0.1);
     padding: 20px;
@@ -55,7 +52,6 @@
     align-items: center;
   }
   
-  /* Entry Header */
   .entry-header {
     display: flex;
     justify-content: space-between;
@@ -74,20 +70,17 @@
     gap: 10px;
   }
   
-  /* Left Align Entry Content */
   .entry-content {
     padding-left: 10px;
     text-align: left;
   }
   
-  /* Sections Inside the Entry */
   .highlight-section,
   .quality-section,
   .thoughts-section {
     margin-bottom: 15px;
   }
   
-  /* Labels for Sections */
   .highlight-label,
   .quality-label,
   .thoughts-label {
@@ -97,7 +90,6 @@
     display: block;
   }
   
-  /* Left Align the Entered Data */
   .highlight-text,
   .quality-text,
   .thoughts-text {
@@ -107,7 +99,6 @@
     display: block;
   }
   
-  /* Favorite Icon */
   .favorite-icon {
     cursor: pointer;
     font-size: 22px;
@@ -120,7 +111,6 @@
     color: #dc2020;
   }
   
-  /* Success Message */
   .success-message {
     background-color: #d4edda;
     color: #155724;
@@ -141,7 +131,6 @@
     }
   }
   
-  /* Responsive Design */
   @media (max-width: 768px) {
     .favorites-container {
       width: 95%;
