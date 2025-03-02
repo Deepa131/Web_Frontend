@@ -1,4 +1,3 @@
-// src/api/api.js
 import axios from 'axios';
 
 const BASE_URL = 'http://localhost:5000/api'; 
@@ -42,7 +41,7 @@ export const createDiaryEntry = async (entryData) => {
         const response = await axios.post(`${BASE_URL}/diaries/create`, entryData, {
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`, 
+                'Authorization': `Bearer ${token}`,
             },
         });
         return response.data;
@@ -59,7 +58,7 @@ export const getAllDiaryEntries = async (token) => {
           Authorization: `Bearer ${token}`, 
         },
       });
-      return response.data; 
+      return response.data;
     } catch (error) {
       console.error("Error fetching diary entries:", error.response ? error.response.data : error);
       throw new Error("Failed to fetch diary entries"); 
@@ -165,18 +164,24 @@ export const getFavoriteById = async (id, token) => {
 };
 
 export const updateFavorite = async (id, favoriteData, token) => {
-    try {
-      const response = await axios.put(`${BASE_URL}/diaries/favorites/${id}`, favoriteData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      return response.data; 
-    } catch (error) {
+  try {
+      const response = await axios.put(
+          `${BASE_URL}/diaries/favorites/${id}`,
+          favoriteData,
+          {
+              headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${token}`,
+              },
+          }
+      );
+      return response.data;
+  } catch (error) {
       console.error("Error updating favorite entry:", error.response ? error.response.data : error);
       throw new Error("Failed to update favorite entry");
-    }
+  }
 };
+
 
 export const removeFavorite = async (id, token) => {
     try {

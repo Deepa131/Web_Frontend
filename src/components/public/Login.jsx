@@ -18,7 +18,6 @@ const Login = () => {
             const response = await loginUser({ email, password }); 
 
             if (response.token) {
-                // Save the token in localStorage
                 localStorage.setItem('token', response.token);
                 localStorage.setItem('user', JSON.stringify({ loggedIn: true, ...response.user }));
 
