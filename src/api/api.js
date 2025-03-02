@@ -17,26 +17,10 @@ export const signupUser = async (userData) => {
     }
 };
 
-// Function to log in a user
-// export const loginUser = async (credentials) => {
-//   console.log("Login request payload:", credentials);
-//     try {
-//         const response = await axios.post(`${BASE_URL}/users/login`, credentials, {
-//             headers: {
-//                 'Content-Type': 'application/json',
-//             },
-//         });
-//         return response.data;
-//     } catch (error) {
-//         console.error("Login error response:", error.response);
-//         throw new Error('Failed to log in user');
-//     }
-// };
-
 export const loginUser = async (credentials) => {
   try {
       const response = await axios.post(`${BASE_URL}/users/login`, 
-          JSON.stringify(credentials),  // 🔹 Ensure JSON format
+          JSON.stringify(credentials),  
           {
               headers: { 
                   'Content-Type': 'application/json'
@@ -53,12 +37,12 @@ export const loginUser = async (credentials) => {
 
 // Function to create a new diary entry
 export const createDiaryEntry = async (entryData) => {
-    const token = localStorage.getItem('token'); // Get the token from local storage
+    const token = localStorage.getItem('token'); 
     try {
         const response = await axios.post(`${BASE_URL}/diaries/create`, entryData, {
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`, // Include the token in the headers
+                'Authorization': `Bearer ${token}`, 
             },
         });
         return response.data;
@@ -72,13 +56,13 @@ export const getAllDiaryEntries = async (token) => {
     try {
       const response = await axios.get(`${BASE_URL}/diaries/all`, {
         headers: {
-          Authorization: `Bearer ${token}`, // Include JWT for authentication
+          Authorization: `Bearer ${token}`, 
         },
       });
-      return response.data; // Return the data received from the API
+      return response.data; 
     } catch (error) {
       console.error("Error fetching diary entries:", error.response ? error.response.data : error);
-      throw new Error("Failed to fetch diary entries"); // Throw an error for handling in the component
+      throw new Error("Failed to fetch diary entries"); 
     }
 };
 
@@ -146,14 +130,12 @@ export const getFavorites = async (token) => {
           },
       });
       
-      // Check if the response data is in the expected format
       if (!response.data) {
           throw new Error("No data returned from the API");
       }
 
       return response.data; 
   } catch (error) {
-      // Log detailed error information
       if (error.response) {
           console.error("Error fetching favorites:", {
               status: error.response.status,
@@ -164,7 +146,6 @@ export const getFavorites = async (token) => {
           console.error("Error fetching favorites:", error.message);
       }
       
-      // Throw a more informative error
       throw new Error(`Failed to fetch favorite entries: ${error.response ? error.response.data.message : error.message}`);
   }
 };
@@ -210,40 +191,6 @@ export const removeFavorite = async (id, token) => {
       throw new Error("Failed to remove favorite entry");
     }
 };
-
-
-// export const toggleFavorite = async (token, entryId) => {
-//   if (!entryId) {
-//     console.error("Error: Missing entryId for toggling favorite.");
-//     return;
-//   }
-
-//   console.log("Toggling favorite for entryId:", entryId); // Debug log
-
-//   try {
-//     const response = await fetch(`http://localhost:5000/api/diaries/favorites/add_favorite`, {
-//       method: "POST",  // Use POST instead of PUT
-//       headers: {
-//         "Content-Type": "application/json",
-//         Authorization: `Bearer ${token}`,
-//       },
-//       body: JSON.stringify({ diaryId: entryId }), // Send ID in request body
-//     });
-
-//     if (!response.ok) {
-//       const errorData = await response.json();
-//       throw new Error(errorData.error || "Failed to toggle favorite");
-//     }
-
-//     const result = await response.json();
-//     console.log("Favorite Toggle Response:", result); // 🔍 Debugging API response
-
-//     return result;
-//   } catch (error) {
-//     console.error("API Error toggling favorite:", error.message);
-//     throw error;
-//   }
-// };
 
 export const toggleFavorite = async (token, entryId) => {
   if (!entryId) {
