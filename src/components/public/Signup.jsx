@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { signupUser } from "../../api/api"; // Import the signupUser function
+import { signupUser } from "../../api/api"; 
 import "../../styles/Style.css";
 
 const Signup = () => {
@@ -10,44 +10,35 @@ const Signup = () => {
     password: "",
     confirmPassword: "",
   });
-
   const navigate = useNavigate();
-
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
-
   const handleSignup = async () => {
     const { username, email, password, confirmPassword } = formData;
-
     if (!username || !email || !password || !confirmPassword) {
       alert("All fields are required. Please complete the form.");
       return;
     }
-
     if (password !== confirmPassword) {
       alert("Passwords do not match! Please try again.");
       return;
     }
-
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       alert("Please enter a valid email address.");
       return;
     }
-
     if (password.length < 6) {
       alert("Password must be at least 6 characters long.");
       return;
     }
-
     try {
       const response = await signupUser({
         username,
         email,
         password,
       });
-
       alert("Signup successful! You can now log in.");
       navigate("/login");
     } catch (error) {

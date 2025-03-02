@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { loginUser } from '../../api/api'; // Import the loginUser function
+import { loginUser } from '../../api/api'; 
 import '../../styles/Style.css';
 
 const Login = () => {
@@ -15,7 +15,7 @@ const Login = () => {
         setLoading(true);
 
         try {
-            const response = await loginUser({ email, password }); // Use the loginUser function
+            const response = await loginUser({ email, password }); 
 
             if (response.token) {
                 // Save the token in localStorage
@@ -24,7 +24,7 @@ const Login = () => {
 
                 window.dispatchEvent(new Event("storage"));
 
-                navigate('/homepage'); // Redirect to homepage
+                navigate('/homepage');
             } else {
                 setError(response.error || 'Login failed.');
             }

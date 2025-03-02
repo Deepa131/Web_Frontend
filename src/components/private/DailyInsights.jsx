@@ -13,15 +13,12 @@ const DailyInsights = () => {
   const [thoughts, setThoughts] = useState("");
   const [highlight, setHighlight] = useState("");
   const [message, setMessage] = useState("");
-
   useEffect(() => {
     if (message) {
       const timer = setTimeout(() => setMessage(""), 3000);
       return () => clearTimeout(timer);
     }
   }, [message]);
-
-  // Function to handle saving the entry to the backend
   const saveEntry = async () => {
     if (!dayQuality || !thoughts || !highlight) {
       alert("Please fill in all fields before saving.");
@@ -34,13 +31,9 @@ const DailyInsights = () => {
         thoughts,
         highlight,
       };
-
-
-      const response = await createDiaryEntry(newEntry); // Use the createDiaryEntry function
-
+      const response = await createDiaryEntry(newEntry);
       if (response) {
         setMessage("Entry saved successfully! 🎉");
-        // Reset fields after successful save
         setDayQuality("");
         setThoughts("");
         setHighlight("");

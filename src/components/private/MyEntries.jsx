@@ -12,7 +12,6 @@ const MyEntries = () => {
   const [selectedEntry, setSelectedEntry] = useState({});
   const [selectedHighlight, setSelectedHighlight] = useState(null);
   const token = localStorage.getItem("token");
-
   useEffect(() => {
     const fetchEntries = async () => {
       try {
@@ -23,27 +22,21 @@ const MyEntries = () => {
         console.error("Error fetching entries:", error);
       }
     };
-
     fetchEntries();
   }, [token]);
-
   const saveEditedEntry = async () => {
     console.log("Selected entry before saving:", selectedEntry);
-
     if (!selectedEntry.entryId) {
       console.error("Entry ID is missing or invalid", selectedEntry);
       alert("Invalid entry ID");
       return;
     }
-
     try {
       const updatedEntry = await updateDiaryEntry(selectedEntry.entryId, selectedEntry, token);
       console.log("Updated entry response:", updatedEntry);
-
       const updatedEntries = entries.map((entry) =>
         entry.entryId === selectedEntry.entryId ? updatedEntry : entry
       );
-
       setEntries(updatedEntries);
       setEditIndex(null);
       setSelectedEntry({});
@@ -52,22 +45,18 @@ const MyEntries = () => {
       alert("Failed to update the entry. Please try again later.");
     }
   };
-
   const cancelEdit = () => {
     setEditIndex(null);
     setSelectedEntry({});
   };
-
   const deleteEntry = async (index) => {
     const entryToDelete = entries[index];
     console.log("Deleting entry:", entryToDelete);
-
     if (!entryToDelete || !entryToDelete.entryId) {
       console.error("Invalid entry or missing entry ID for deletion");
       alert("Unable to delete this entry. Please try again.");
       return;
     }
-
     const confirmMessage = "Are you sure you want to delete this entry?";
     if (window.confirm(confirmMessage)) {
       try {
@@ -82,49 +71,39 @@ const MyEntries = () => {
       }
     }
   };
-
   const toggleFavoriteEntry = async (index) => {
     const entry = entries[index];
     console.log("Toggling favorite for entry:", entry);
-
-    // Validate entry and entryId
     if (!entry || !entry.entryId) {
         console.error("Invalid entry or missing entry ID for favorite action");
         alert("Unable to toggle favorite. Please try again.");
         return;
     }
-
-    const token = localStorage.getItem("token"); // Ensure token is fetched
+    const token = localStorage.getItem("token");
     if (!token) {
         alert("You must be logged in to toggle favorites.");
         return;
     }
-
     const isFavorited = favorites.some((fav) => fav.entryId === entry.entryId);
-
     try {
-        // Toggle favorite status
         if (isFavorited) {
-            await deleteDiaryEntry(entry.entryId, token); // Call your delete function here for unfavoriting
+            await deleteDiaryEntry(entry.entryId, token); 
             const updatedFavorites = favorites.filter((fav) => fav.entryId !== entry.entryId);
             setFavorites(updatedFavorites);
         } else {
-            await toggleFavorite(entry.entryId, token); // Call the toggleFavorite API
-            setFavorites([...favorites, entry]); // Add entry to favorites
+            await toggleFavorite(entry.entryId, token); 
+            setFavorites([...favorites, entry]); 
         }
     } catch (error) {
         console.error("Error toggling favorite:", error);
         alert("Failed to update favorite. Please try again.");
     }
 };
-
   const editEntry = (index) => {
     setEditIndex(index);
     setSelectedEntry(entries[index]);
   };
-
   const uniqueHighlights = [...new Set(entries.map((entry) => entry.highlight))];
-
   const filteredEntries = selectedHighlight
     ? entries.filter((entry) => entry.highlight === selectedHighlight)
     : entries;
